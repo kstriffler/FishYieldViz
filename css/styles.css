@@ -1,0 +1,300 @@
+/* ===============================
+   Base + Layout
+   =============================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+    background: radial-gradient(circle at top left, #e0f2fe 0, #f3f4f6 38%, #eef2ff 100%);
+    color: #0f172a;
+}
+
+/* Optional top header bar */
+.app-header {
+    padding: 16px 24px;
+    background: linear-gradient(120deg, #0f766e, #0369a1);
+    color: #f9fafb;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+}
+
+.app-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.app-subtitle {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+/* Main dashboard container: map left, area chart right */
+.container {
+    max-width: 1200px;
+    margin: 18px auto 28px auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* Panels (“cards”) */
+#map-container,
+#area-container {
+    flex: 1;
+    min-width: 0;
+    background: #ffffff;
+    padding: 12px 16px 16px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10);
+    position: relative;
+    transition: transform 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+/* Subtle top accent border per panel */
+#map-container::before,
+#area-container::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    border-radius: 14px 14px 0 0;
+    background: linear-gradient(90deg, #0ea5e9, #22c55e);
+    opacity: 0.85;
+}
+
+#area-container::before {
+    background: linear-gradient(90deg, #f97316, #8b5cf6);
+}
+
+/* Hover elevation */
+#map-container:hover,
+#area-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.18);
+    border-color: rgba(148, 163, 184, 0.8);
+}
+
+/* Titles */
+h2 {
+    margin: 0 0 10px 0;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* ===============================
+   Map + Controls
+   =============================== */
+
+#map-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0 10px;
+    font-size: 13px;
+    color: #374151;
+}
+
+#map-controls label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#year-label {
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.1);
+    color: #0369a1;
+}
+
+/* Slider styling */
+#year-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 210px;
+    height: 6px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    outline: none;
+    cursor: pointer;
+}
+
+#year-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0ea5e9;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.4);
+}
+
+#year-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0ea5e9;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.4);
+}
+
+/* SVGs */
+svg {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+/* Country styling */
+.country {
+    stroke: #e5e7eb;
+    stroke-width: 0.4px;
+    cursor: pointer;
+    transition: stroke 0.15s ease, stroke-width 0.15s ease,
+    filter 0.15s ease;
+}
+
+.country:hover {
+    stroke: #0f172a;
+    stroke-width: 1px;
+    filter: brightness(1.04);
+}
+
+.country.selected {
+    stroke: #f97316;
+    stroke-width: 2px;
+}
+
+/* ===============================
+   Tooltip
+   =============================== */
+
+.tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding: 8px 9px 9px 9px;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.32);
+    font-size: 12px;
+    display: none;
+    width: 230px;
+    z-index: 9999;
+}
+
+.tooltip-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+/* ===============================
+   Stacked Area + Controls
+   =============================== */
+
+/* Reset button */
+#reset-selection {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0 10px;
+    padding: 6px 13px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    background: #f3f4f6;
+    color: #111827;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+#reset-selection::before {
+    content: "⟲";
+    font-size: 13px;
+}
+
+#reset-selection:hover {
+    background: #0ea5e9;
+    color: #ffffff;
+    border-color: #0ea5e9;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Axis styling */
+.axis path,
+.axis line {
+    stroke: #cbd5f5;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 10px;
+    fill: #4b5563;
+}
+
+/* Legend */
+.legend {
+    font-size: 12px;
+    fill: #111827;
+}
+
+.legend-item {
+    cursor: pointer;
+    opacity: 0.9;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.legend-item:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.legend rect {
+    stroke: #4b5563;
+    stroke-width: 0.4px;
+    rx: 2;
+    ry: 2;
+}
+
+/* Make legend labels a bit spaced from squares */
+.legend text {
+    dominant-baseline: middle;
+}
+
+/* ===============================
+   Responsive tweaks
+   =============================== */
+
+@media (max-width: 960px) {
+    .container {
+        flex-direction: column;
+    }
+
+    #map-container,
+    #area-container {
+        width: 100%;
+    }
+}
