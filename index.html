@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wild Fish Capture Visualization</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+
+<div class="app-header">
+    <div class="app-title">Global Capture Fisheries Dashboard</div>
+    <div class="app-subtitle">Explore wild fish catch by country and region over time</div>
+</div>
+
+<div class="container">
+    <div id="map-container">
+        <h2>Capture Fisheries by Country (Map)</h2>
+
+        <div id="map-controls">
+            <label for="year-slider">
+                Year: <span id="year-label"></span>
+            </label>
+            <input type="range" id="year-slider" min="1960" max="2022" step="1">
+        </div>
+
+        <div id="map"></div>
+
+        <div id="tooltip" class="tooltip">
+            <div class="tooltip-title"></div>
+            <div class="tooltip-body">
+                <svg id="tooltip-chart" width="200" height="120"></svg>
+            </div>
+        </div>
+    </div>
+
+    <div id="area-container">
+        <h2>Stacked Area: Selected Countries Over Time</h2>
+
+        <button id="reset-selection">Reset Selected Countries</button>
+
+        <div id="stacked-area"></div>
+
+        <div id="area-tooltip" class="tooltip">
+            <div class="tooltip-title"></div>
+            <div class="tooltip-body"></div>
+        </div>
+    </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
+
